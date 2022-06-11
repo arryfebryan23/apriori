@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use Phpml\Association\Apriori;
 
-class Welcome extends CI_Controller
+class Landing_page extends CI_Controller
 {
 
 	/**
@@ -23,8 +23,6 @@ class Welcome extends CI_Controller
 	 */
 	public function index()
 	{
-		echo 'test';
-		die;
 		$samples = [
 			['roti', 'selai', 'mentega'],
 			['roti', 'mentega'],
