@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Landing_page extends CI_Controller
+class Apriori extends CI_Controller
 {
 
 	/**
@@ -21,6 +21,7 @@ class Landing_page extends CI_Controller
 	 */
 	public function index()
 	{
-		$this->load->view('landing_page');
+		$data['page'] = 'apriori';
+		$this->load->view('template_dashboard', $data);
 	}
 }
