@@ -23,8 +23,6 @@ class Welcome extends CI_Controller
 	 */
 	public function index()
 	{
-		echo 'test';
-		die;
 		$samples = [
 			['roti', 'selai', 'mentega'],
 			['roti', 'mentega'],
