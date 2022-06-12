@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Pearson Salon</title>
+    <title>Peterson Salon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="shortcut icon" type="image/png" href="<?= base_url() ?>/assets/images/icon/favicon.ico"> -->
     <link rel="stylesheet" href="<?= base_url() ?>/assets/css/bootstrap.min.css">
@@ -30,6 +30,9 @@
     <link rel="stylesheet" href="<?= base_url() ?>/assets/css/responsive.css">
     <!-- modernizr css -->
     <script src="<?= base_url() ?>/assets/js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!-- jquery latest version -->
+    <script src="<?= base_url() ?>/assets/js/vendor/jquery-2.2.4.min.js"></script>
 </head>
 
 <body>
@@ -37,9 +40,9 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <!-- preloader area start -->
-    <div id="preloader">
+    <!-- <div id="preloader">
         <div class="loader"></div>
-    </div>
+    </div> -->
     <!-- preloader area end -->
     <!-- page container area start -->
     <div class="page-container">
@@ -58,26 +61,26 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-                            <li class="active">
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>dashboard</span></a>
+                            <?php $menu_active = $this->uri->segment(1); ?>
+                            <li <?= $menu_active == 'dashboard' ? 'class="active"' : ''; ?>>
+                                <a href="<?= base_url('dashboard') ?>" aria-expanded="true"><i class="ti-dashboard"></i>
+                                    <span>dashboard</span></a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-pencil-square-o"></i><span>Kelola Layanan
-                                    </span></a>
+                            <li <?= $menu_active == 'layanan' ? 'class="active"' : ''; ?>>
+                                <a href="<?= base_url('layanan') ?>" aria-expanded="true"><i class="fa fa-pencil-square-o"></i>
+                                    <span>Kelola Layanan</span></a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-history"></i><span>Rekam Layanan</span></a>
+                            <li <?= $menu_active == 'dashborad' ? 'class="active"' : ''; ?>>
+                                <a href="<?= base_url() ?>" aria-expanded="true"><i class="fa fa-history"></i>
+                                    <span>Rekam Layanan</span></a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-calculator"></i><span>Apriori</span></a>
+                            <li <?= $menu_active == 'apriori_c' ? 'class="active"' : ''; ?>>
+                                <a href="<?= base_url('apriori_c') ?>" aria-expanded="true"><i class="fa fa-calculator"></i>
+                                    <span>Apriori</span></a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-table"></i>
+                            <li <?= $menu_active == '' ? 'class="active"' : ''; ?>>
+                                <a href="<?= base_url() ?>" aria-expanded="true"><i class="fa fa-table"></i>
                                     <span>Master Layanan</span></a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-users"></i>
-                                    <span>Users</span></a>
                             </li>
                             <hr>
                             <li>
@@ -99,15 +102,22 @@
             <!-- page title area start -->
             <div class="page-title-area">
                 <div class="row align-items-center">
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Dashboard</h4>
+                        </div>
+                    </div> -->
+                    <div class="col-md-6 col-sm-8 clearfix">
+                        <div class="nav-btn pull-left" style="margin-bottom: 10px;">
+                            <span></span>
+                            <span></span>
+                            <span></span>
                         </div>
                     </div>
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
                             <img class="avatar user-thumb" src="<?= base_url() ?>/assets/images/author/avatar.png" alt="avatar">
-                            <h4 class="user-name">Kumkum Rai</h4>
+                            <h4 class="user-name"><?= $this->ion_auth->user()->row()->first_name . ' ' . $this->ion_auth->user()->row()->last_name; ?></h4>
                         </div>
                     </div>
                 </div>
@@ -124,15 +134,13 @@
         <!-- footer area start-->
         <footer>
             <div class="footer-area">
-                <p>© Copyright 2018. All right reserved. Template by <a href="https://colorlib.com/wp/">Colorlib</a>.</p>
+                <p>© Copyright Peterso Salon 2022. All right reserved.</p>
             </div>
         </footer>
         <!-- footer area end-->
     </div>
     <!-- page container area end -->
 
-    <!-- jquery latest version -->
-    <script src="<?= base_url() ?>/assets/js/vendor/jquery-2.2.4.min.js"></script>
     <!-- bootstrap 4 js -->
     <script src="<?= base_url() ?>/assets/js/popper.min.js"></script>
     <script src="<?= base_url() ?>/assets/js/bootstrap.min.js"></script>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Sign In - Pearson Salon</title>
+    <title>Peterson Salon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="shortcut icon" type="image/png" href="<?= base_url(); ?>assets/images/icon/favicon.ico"> -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap.min.css">
@@ -40,7 +40,7 @@
                 <form method="post" action="<?= base_url('auth/login'); ?>">
                     <div class="login-form-head">
                         <h4>Sign In</h4>
-                        <p>Hello there, Sign in and manage pearson salon.</p>
+                        <p>Hello there, Sign in and manage peterson salon.</p>
                     </div>
                     <div class="login-form-body" style="padding: 40px;">
                         <?= $this->session->flashdata('message') ?? ''; ?>
