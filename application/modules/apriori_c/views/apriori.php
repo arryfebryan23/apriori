@@ -75,23 +75,21 @@
                     <!-- BEGIN : DATASET TERPILIH -->
                     <hr>
                     <h4 class="header-title">Dataset Terpilih</h4>
-                    <div class="single-table">
-                        <div class="table-responsive">
-                            <table class="table table-bordered text-center">
-                                <thead class="text-uppercase">
-                                    <tr>
-                                        <th scope="col">ID Transaksi</th>
-                                        <th scope="col">Nama</th>
-                                        <th scope="col">Nomor Telp</th>
-                                        <th scope="col">Tanggal Transaksi</th>
-                                        <th scope="col">Layanan/Produk</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="sample-apriori">
+                    <div class="data-tables">
+                        <table id="myTable" class="text-center" width="100%">
+                            <thead class="bg-light text-capitalize">
+                                <tr>
+                                    <th scope="col">ID Transaksi</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Nomor Telp</th>
+                                    <th scope="col">Tanggal Transaksi</th>
+                                    <th scope="col">Layanan/Produk</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sample-apriori">
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                     <!-- END : DATASET TERPILIH -->
 
@@ -141,6 +139,7 @@
         $('#card-apriori').show();
         $('#loader-gif').show();
         $("#hasil-content").hide();
+        $('#myTable').DataTable().destroy();
 
         $('#button').attr('disabled', true);
 
@@ -177,6 +176,7 @@
                     $('#frequent-apriori').html(frequent_apriori);
                 },
                 complete: function() {
+                    $('#myTable').DataTable();
                     $("#hasil-content").fadeIn('slow');
                     $('#button').attr('disabled', false);
                     $('#loader-gif').hide();
