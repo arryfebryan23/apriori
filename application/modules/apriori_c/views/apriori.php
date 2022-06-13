@@ -8,11 +8,11 @@
                     <div class=" form-group row">
                         <div class="col-sm-6">
                             <label for="example-text-input" class="col-form-label">Minimal Support</label>
-                            <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.]?[0-9]+" class="form-control" placeholder="Minimal support" name="support" autocomplete="off" value="0.3" required>
+                            <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.]?[0-9]+" class="form-control" placeholder="Minimal support" name="support" autocomplete="off" value="0.2" required>
                         </div>
                         <div class="col-sm-6">
                             <label for="example-text-input" class="col-form-label">Minimal Confidence</label>
-                            <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.]?[0-9]+" class="form-control" placeholder="Minimal Confidence" name="confidence" autocomplete="off" value="0.8" required>
+                            <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.]?[0-9]+" class="form-control" placeholder="Minimal Confidence" name="confidence" autocomplete="off" value="0.5" required>
                         </div>
                     </div>
 
@@ -74,9 +74,9 @@
 
                     <!-- BEGIN : DATASET TERPILIH -->
                     <hr>
-                    <h4 class="header-title">Dataset Terpilih</h4>
+                    <h4 class="header-title text-info">Dataset Terpilih</h4>
                     <div class="data-tables">
-                        <table id="myTable" class="text-center" width="100%">
+                        <table id="myTable" class="table table-bordered table-striped text-center" width="100%">
                             <thead class="bg-light text-capitalize">
                                 <tr>
                                     <th scope="col">ID Transaksi</th>
@@ -95,10 +95,10 @@
 
                     <!-- BEGIN : ASOSIASIN FINAL  -->
                     <hr>
-                    <h4 class="header-title">Asosiasi Final</h4>
+                    <h4 class="header-title text-success">Asosiasi Final</h4>
                     <div class="single-table">
                         <div class="table-responsive">
-                            <table class="table table-bordered  table-striped text-center">
+                            <table class="table table-bordered table-striped text-center">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th scope="col">No.</th>
@@ -263,7 +263,7 @@
 
         frequent.map(function(row) {
             body += "<hr>";
-            body += "<h4 class='header-title'>Iterasi " + i + "</h4>";
+            body += "<h4 class='header-title text-danger'>Iterasi " + i + "</h4>";
             body += "<div class='single-table'>";
             body += "    <div class='table-responsive'>";
             body += "        <table class='table table-bordered text-center'>";
@@ -296,7 +296,7 @@
                 // End of Itemset
 
                 body += "                    <td>" + r.frequency + "</td>";
-                body += "                    <td>" + r.support + "</td>";
+                body += "                    <td>" + r.support.toFixed(2) + "</td>";
                 body += "                </tr>";
                 j++;
             });
