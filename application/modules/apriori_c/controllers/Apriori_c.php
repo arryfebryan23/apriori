@@ -3,6 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use Phpml\Association\Apriori;
 
+require_once FCPATH . '/vendor/autoload.php';
+// include_once APPPATH . '/third_party/mpdf/mpdf.php';
+
 class Apriori_c extends CI_Controller
 {
 	function __construct()
@@ -21,11 +24,38 @@ class Apriori_c extends CI_Controller
 
 	public function hitung()
 	{
-		$support = $this->input->post('support');
-		$confidence = $this->input->post('confidence');
-		$start_date = $this->input->post('start_date');
-		$end_date = $this->input->post('end_date');
+		$hasil = $this->analisa_apriori($this->input->post());
+		echo json_encode($hasil);
+	}
 
+	public function export_pdf()
+	{
+		// $test = [
+		// 	'support' => 0.2,
+		// 	'confidence' => 0.5,
+		// 	'start_date' => '',
+		// 	'end_date' => ''
+		// ];
+
+		$data = $this->analisa_apriori($this->input->post());
+		// vd($data);
+		// $this->load->view('print_analisa_pdf', $data);
+		$html = $this->load->view('print_analisa_pdf', $data, true);
+
+		$mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
+		$mpdf->AddPage();
+		$mpdf->setFooter(date('d, M Y H:i:s') . ' ~ Peterson Salon - {PAGENO}');
+		$mpdf->WriteHTML($html);
+
+		$mpdf->Output();
+	}
+
+	public function analisa_apriori($data)
+	{
+		$support = $data['support'];
+		$confidence = $data['confidence'];
+		$start_date = $data['start_date'];
+		$end_date = $data['end_date'];
 
 		if (!empty($start_date) && !empty($end_date)) {
 			$where = "AND SUBSTRING(tanggal, 1, 10) BETWEEN  '${start_date}' AND '${end_date}';";
@@ -99,22 +129,16 @@ class Apriori_c extends CI_Controller
 			}
 		}
 
-
 		$hasil = [
 			'support' => $support,
 			'confidence' => $confidence,
-			'start_date' => '2020-02-23',
-			'end_date' => '2020-02-24',
+			'start_date' => $start_date ?? '-',
+			'end_date' => $end_date ?? '-',
 			'samples' => $data,
 			'frequent' => $create_frequents,
 			'result' => $result
 		];
 
-		echo json_encode($hasil);
-	}
-
-	public function support()
-	{
-		// megandung A dibagi Total transaksi
+		return $hasil;
 	}
 }

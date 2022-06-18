@@ -19,11 +19,11 @@
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <label for="example-text-input" class="col-form-label">Tanggal Awal</label>
-                            <input type="date" class="form-control" placeholder="Tanggal Awal" name="start_date" value="23/02/1999">
+                            <input type="date" class="form-control" placeholder="Tanggal Awal" name="start_date">
                         </div>
                         <div class="col-sm-6">
                             <label for="example-text-input" class="col-form-label">Tanggal Akhir</label>
-                            <input type="date" class="form-control" placeholder="Tanggal Akhir" name="end_date" value="23/02/2023">
+                            <input type="date" class="form-control" placeholder="Tanggal Akhir" name="end_date">
                         </div>
                     </div>
                     <button class="btn btn-primary" id="button" type="submit">Hitung</button>
@@ -37,10 +37,23 @@
             border: 0px solid black !important;
         }
     </style>
-    <div class="col-lg-12 mt-4" id="card-apriori">
+    <div class="col-lg-12 mt-4" id="card-apriori" style="display: none;">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Hasil Perhitungan Apriori</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="header-title">Hasil Perhitungan Apriori</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <form method="post" action="<?= base_url('apriori_c/export_pdf') ?>" id="form-pdf" target="_BLANK">
+                            <input type="hidden" name="support" id="pdf-support" required>
+                            <input type="hidden" name="confidence" id="pdf-confidence" required>
+                            <input type="hidden" name="start_date" id="pdf-start-date">
+                            <input type="hidden" name="end_date" id="pdf-end-date">
+                            <button class="btn btn-info btn-sm pull-right" id="print-btn"><i class="fa fa-print"></i> &nbsp;Cetak PDF</button>
+                        </form>
+                    </div>
+                </div>
                 <span id="loader-gif">
                     <center>
                         <img src="<?= base_url('assets/images/loader.gif') ?>" alt="loading">
@@ -76,7 +89,7 @@
                     <hr>
                     <h4 class="header-title text-info">Dataset Terpilih</h4>
                     <div class="data-tables">
-                        <table id="myTable" class="table table-bordered table-striped text-center" width="100%">
+                        <table id="myTable" class="table table-bordered table-striped text-center my-table" width="100%">
                             <thead class="bg-light text-capitalize">
                                 <tr>
                                     <th scope="col">ID Transaksi</th>
@@ -97,23 +110,21 @@
                     <hr>
                     <h4 class="header-title text-success">Asosiasi Final</h4>
                     <div class="single-table">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped text-center">
-                                <thead class="text-uppercase">
-                                    <tr>
-                                        <th scope="col">No.</th>
-                                        <th scope="col">Antecedent</th>
-                                        <th scope="col">Consequent</th>
-                                        <th scope="col">Support</th>
-                                        <th scope="col">Confidence</th>
-                                        <th scope="col">Support * Confidence</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="result-apriori">
+                        <table class="table table-bordered table-striped text-center  my-table">
+                            <thead class="text-uppercase">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Antecedent</th>
+                                    <th scope="col">Consequent</th>
+                                    <th scope="col">Support</th>
+                                    <th scope="col">Confidence</th>
+                                    <th scope="col">Support * Confidence</th>
+                                </tr>
+                            </thead>
+                            <tbody id="result-apriori">
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                     <!-- END : ASOSIASI FINAL -->
 
@@ -133,15 +144,17 @@
     $("#card-apriori").hide();
     $("#hasil-content").hide();
     $("#loader-gif").hide();
+    $("#form-pdf").hide();
 
     var my_func = function(event) {
         event.preventDefault();
         $('#card-apriori').show();
         $('#loader-gif').show();
         $("#hasil-content").hide();
-        $('#myTable').DataTable().destroy();
+        $('.my-table').DataTable().destroy();
 
         $('#button').attr('disabled', true);
+        $('#print-btn').attr('disabled', true);
 
         setTimeout(function() {
             var form = $("#form-apriori");
@@ -151,7 +164,6 @@
                 dataType: 'json',
                 data: form.serialize(),
                 success: function(response) {
-                    console.log(response);
                     response.frequent = Object.keys(response.frequent)
                         .map(function(key) {
                             return response.frequent[key];
@@ -166,6 +178,12 @@
                     let result = create_row_hasil(response.result);
                     let frequent_apriori = create_frequent(response.frequent);
 
+
+                    $('#pdf-support').val(response.support);
+                    $('#pdf-confidence').val(response.confidence);
+                    $('#pdf-start-date').val(response.start_date);
+                    $('#pdf-end-date').val(response.end_date);
+
                     $('#support').html(response.support);
                     $('#confidence').html(response.confidence);
                     $('#start_date').html(response.start_date);
@@ -176,10 +194,12 @@
                     $('#frequent-apriori').html(frequent_apriori);
                 },
                 complete: function() {
-                    $('#myTable').DataTable();
+                    $('.my-table').DataTable();
                     $("#hasil-content").fadeIn('slow');
                     $('#button').attr('disabled', false);
+                    $('#print-btn').attr('disabled', false);
                     $('#loader-gif').hide();
+                    $('#form-pdf').fadeIn('slow');
                 }
             });
         }, 1500);
@@ -187,7 +207,6 @@
 
     };
 
-    var form = document.getElementById("form-apriori");
 
     function create_row_sample(samples) {
         let i = 1;
@@ -215,7 +234,6 @@
 
         return body;
     }
-
 
     function create_row_hasil(result) {
         let i = 1;
@@ -265,8 +283,7 @@
             body += "<hr>";
             body += "<h4 class='header-title text-danger'>Iterasi " + i + "</h4>";
             body += "<div class='single-table'>";
-            body += "    <div class='table-responsive'>";
-            body += "        <table class='table table-bordered text-center'>";
+            body += "        <table class='table table-bordered text-center table-striped my-table'>";
             body += "            <thead class='text-uppercase'>";
             body += "                <tr>";
             body += "                    <th scope='col'>No</th>";
@@ -302,13 +319,14 @@
             });
             body += "            </tbody>";
             body += "        </table>";
-            body += "    </div>";
             body += "</div>";
             i++;
         })
 
         return body;
     }
+
     // attach event listener
+    var form = document.getElementById("form-apriori");
     form.addEventListener("submit", my_func, true);
 </script>
