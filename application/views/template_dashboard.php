@@ -75,9 +75,9 @@
                                 <a href="<?= base_url('dashboard') ?>" aria-expanded="true"><i class="ti-dashboard"></i>
                                     <span>dashboard</span></a>
                             </li>
-                            <li <?= $menu_active == 'layanan' ? 'class="active"' : ''; ?>>
-                                <a href="<?= base_url('layanan') ?>" aria-expanded="true"><i class="fa fa-pencil-square-o"></i>
-                                    <span>Kelola Layanan</span></a>
+                            <li <?= $menu_active == 'transaksi' ? 'class="active"' : ''; ?>>
+                                <a href="<?= base_url('transaksi') ?>" aria-expanded="true"><i class="fa fa-pencil-square-o"></i>
+                                    <span>Kelola Transaksi</span></a>
                             </li>
                             <li <?= $menu_active == 'dashborad' ? 'class="active"' : ''; ?>>
                                 <a href="<?= base_url() ?>" aria-expanded="true"><i class="fa fa-history"></i>
