@@ -67,9 +67,19 @@ class Apriori_c extends CI_Controller
 			$where = '';
 		}
 
-		$sql = "SELECT * FROM transaksi 
-					WHERE status = '1'
-					${where}";
+		$sql = "SELECT
+						t.*
+					FROM
+						transaksi t
+					JOIN transaksi_detail td ON
+						td.id_transaksi = t.id
+					WHERE
+						t.status = '1'
+						${where}
+						AND td.deleted_at IS NULL
+					GROUP BY t.id
+					HAVING COUNT(td.id) > 1;";
+
 		$data = $this->db->query($sql);
 		$data = $data->result_array();
 
@@ -82,8 +92,9 @@ class Apriori_c extends CI_Controller
 								master_layanan ml
 							WHERE
 								ml.id = td.id_layanan
-						)AS id_layanan FROM transaksi_detail td
-					WHERE id_transaksi = {$row['id_transaksi']}";
+						) AS id_layanan 
+					FROM transaksi_detail td
+					WHERE td.id_transaksi = {$row['id']};";
 			$res = $this->db->query($sql)->result_array();
 
 			$arr_tmp = array();

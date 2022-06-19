@@ -12,7 +12,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="example-text-input" class="col-form-label">Minimal Confidence</label>
-                            <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.]?[0-9]+" class="form-control" placeholder="Minimal Confidence" name="confidence" autocomplete="off" value="0.5" required>
+                            <input type="text" inputmode="numeric" pattern="[-+]?[0-9]*[.]?[0-9]+" class="form-control" placeholder="Minimal Confidence" name="confidence" autocomplete="off" value="0.6" required>
                         </div>
                     </div>
 
