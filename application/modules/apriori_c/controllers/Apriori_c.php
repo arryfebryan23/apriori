@@ -30,16 +30,8 @@ class Apriori_c extends CI_Controller
 
 	public function export_pdf()
 	{
-		// $test = [
-		// 	'support' => 0.2,
-		// 	'confidence' => 0.5,
-		// 	'start_date' => '',
-		// 	'end_date' => ''
-		// ];
-
 		$data = $this->analisa_apriori($this->input->post());
-		// vd($data);
-		// $this->load->view('print_analisa_pdf', $data);
+
 		$html = $this->load->view('print_analisa_pdf', $data, true);
 
 		$mpdf = new \Mpdf\Mpdf(['format' => 'A4']);

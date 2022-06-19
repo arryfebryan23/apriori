@@ -9,15 +9,12 @@ class Transaksi extends CI_Controller
 		if (!$this->ion_auth->logged_in()) {
 			redirect('auth/login');
 		}
+		$this->load->model('Transaksi_model');
 	}
 
 	public function index()
 	{
-		$sql = "SELECT t.*, SUM(td.harga) harga 
-					FROM transaksi t 
-					JOIN transaksi_detail td ON td.id_transaksi = t.id AND td.deleted_at IS NULL
-					GROUP BY t.id ORDER BY t.id DESC;";
-		$data['transaksi'] = $this->db->query($sql);
+		$data['transaksi'] = $this->Transaksi_model->get_all_transaksi();
 
 		$data['page'] = 'transaksi';
 		$this->load->view('template_dashboard', $data);
@@ -216,5 +213,59 @@ class Transaksi extends CI_Controller
 		} else {
 			return $id_transaksi;
 		}
+	}
+
+	public function rekam_transaksi()
+	{
+
+		$sql = "SELECT td.id_transaksi, ml.layanan FROM transaksi t 
+				JOIN transaksi_detail td ON t.id = td.id_transaksi
+				JOIN master_layanan ml ON td.id_layanan = ml.id
+				WHERE t.status = '1';";
+		$detail_transaksi = $this->db->query($sql)->result();
+
+		$temp = array();
+		foreach ($detail_transaksi as $row) {
+			$temp[$row->id_transaksi][] = $row->layanan;
+		}
+
+		$data['transaksi']        = $this->Transaksi_model->get_all_transaksi();
+		$data['page']             = 'rekam_transaksi';
+		$data['detail_transaksi'] = $temp;
+
+		$this->load->view('template_dashboard', $data);
+	}
+
+	public function print_pdf()
+	{
+		$sql = "SELECT td.id_transaksi, ml.layanan FROM transaksi t 
+				JOIN transaksi_detail td ON t.id = td.id_transaksi
+				JOIN master_layanan ml ON td.id_layanan = ml.id
+				WHERE t.status = '1';";
+		$detail_transaksi = $this->db->query($sql)->result();
+
+		$temp = array();
+		foreach ($detail_transaksi as $row) {
+			$temp[$row->id_transaksi][] = $row->layanan;
+		}
+
+		$data['transaksi']        = $this->Transaksi_model->get_all_transaksi();
+		$data['detail_transaksi'] = $temp;
+
+		$html = $this->load->view('print_transaksi', $data, true);
+
+		// $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
+		$mpdf = new \Mpdf\Mpdf([
+			'mode' => 'utf-8',
+			'format' => 'A4-L',
+			'orientation' => 'L'
+		]);
+
+
+		$mpdf->AddPage();
+		$mpdf->setFooter(date('d, M Y H:i:s') . ' ~ Peterson Salon - {PAGENO}');
+		$mpdf->WriteHTML($html);
+
+		$mpdf->Output();
 	}
 }

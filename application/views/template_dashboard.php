@@ -70,17 +70,20 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-                            <?php $menu_active = $this->uri->segment(1); ?>
+                            <?php
+                            $menu_active = $this->uri->segment(1);
+                            $sub_menu =  $this->uri->segment(2);
+                            ?>
                             <li <?= $menu_active == 'dashboard' ? 'class="active"' : ''; ?>>
                                 <a href="<?= base_url('dashboard') ?>" aria-expanded="true"><i class="ti-dashboard"></i>
                                     <span>dashboard</span></a>
                             </li>
-                            <li <?= $menu_active == 'transaksi' ? 'class="active"' : ''; ?>>
+                            <li <?= $menu_active == 'transaksi' && empty($sub_menu) ? 'class="active"' : ''; ?>>
                                 <a href="<?= base_url('transaksi') ?>" aria-expanded="true"><i class="fa fa-pencil-square-o"></i>
                                     <span>Kelola Transaksi</span></a>
                             </li>
-                            <li <?= $menu_active == 'dashborad' ? 'class="active"' : ''; ?>>
-                                <a href="<?= base_url() ?>" aria-expanded="true"><i class="fa fa-history"></i>
+                            <li <?= $menu_active == 'transaksi' && $sub_menu == 'rekam_transaksi' ? 'class="active"' : ''; ?>>
+                                <a href="<?= base_url('transaksi/rekam_transaksi') ?>" aria-expanded="true"><i class="fa fa-history"></i>
                                     <span>Rekam Layanan</span></a>
                             </li>
                             <li <?= $menu_active == 'apriori_c' ? 'class="active"' : ''; ?>>
