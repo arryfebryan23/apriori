@@ -57,7 +57,7 @@
             </tr>
         <?php endforeach; ?>
         <tr>
-            <th colspan="5">TOTAL</th>
+            <th colspan="4">TOTAL</th>
             <th colspan="2">Rp. <?= number_format($total, 0, ",", "."); ?>,-</th>
         </tr>
     </tbody>
