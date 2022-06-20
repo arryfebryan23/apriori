@@ -19,6 +19,7 @@
                                 <th class="text-center" scope="col">No Telp</th>
                                 <th class="text-center" scope="col">Layanan</th>
                                 <th class="text-center" scope="col">Total Harga</th>
+                                <th class="text-center" scope="col">Tanggal</th>
                                 <th class="text-center" scope="col">Status Transaksi</th>
                                 <th class="text-center" scope="col">Aksi</th>
                             </tr>
@@ -42,6 +43,7 @@
                                         ?>
                                     </td>
                                     <td>Rp. <?= number_format($row->harga, 0, ",", ".") ?> ,-</td>
+                                    <td><?= $row->tanggal; ?></td>
                                     <td class="text-center" valign="middle">
                                         <?php if ($row->status == '0') : ?>
                                             <span class="badge badge-danger"><i class="fa fa-close"></i> tidak datang</span>
