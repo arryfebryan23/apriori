@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="example-text-input" class="col-form-label">Email</label>
-                            <input type="email" class="form-control" placeholder="Email" name="email" autocomplete="off" value="<?= $transaksi->email ?>" required>
+                            <input type="email" class="form-control" placeholder="Email" name="email" autocomplete="off" value="<?= $transaksi->email ?>">
                         </div>
                     </div>
                     <div class="form-group row">

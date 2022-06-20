@@ -242,13 +242,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-12">
                                                 <!-- <label for="example-text-input" class="col-form-label">No. Telp</label> -->
                                                 <input type="text" class="form-control onlynumber" placeholder="No. Telp" name="no_telp" autocomplete="off" required>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <!-- <label for="example-text-input" class="col-form-label">Email</label> -->
-                                                <input type="email" class="form-control" placeholder="Email" name="email" autocomplete="off" required>
                                             </div>
                                         </div>
                                         <div class="form-group row">
