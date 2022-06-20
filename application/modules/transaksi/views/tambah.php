@@ -71,7 +71,7 @@
                             </div>
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="radio-pending" name="status" class="custom-control-input" value="9" required>
-                                <label class="custom-control-label" for="radio-pending"><b><i class="fa fa-spinner fa-spin"></i> Pending</b></label>
+                                <label class="custom-control-label" for="radio-pending"><b><i class="fa fa-spinner"></i> Pending</b></label>
                             </div>
                         </div>
                     </div>

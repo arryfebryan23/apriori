@@ -35,7 +35,7 @@
                                         <?php elseif ($row->status == '1') : ?>
                                             <span class="badge badge-success"><i class="fa fa-check"></i> datang</span>
                                         <?php else : ?>
-                                            <span class="badge badge-warning"><i class="fa fa-spinner fa-pulse"></i> pending</span>
+                                            <span class="badge badge-warning"><i class="fa fa-spinner"></i> pending</span>
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">

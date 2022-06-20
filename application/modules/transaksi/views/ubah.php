@@ -4,7 +4,6 @@
 <div class="row">
     <div class="col-lg-12 mt-5">
         <?= $this->session->flashdata('message'); ?>
-
         <div class="card">
             <div class="card-body">
                 <h4 class="header-title">Ubah Data Transkasi</h4>
@@ -74,7 +73,7 @@
                             </div>
                             <div class="custom-control custom-radio">
                                 <input type="radio" id="radio-pending" name="status" class="custom-control-input" value="9" <?= $transaksi->status == 9 ? 'checked' : ''; ?> required>
-                                <label class="custom-control-label" for="radio-pending"><b><i class="fa fa-spinner fa-spin"></i> Pending</b></label>
+                                <label class="custom-control-label" for="radio-pending"><b><i class="fa fa-spinner"></i> Pending</b></label>
                             </div>
                         </div>
                     </div>
