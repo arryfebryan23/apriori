@@ -1,18 +1,31 @@
 <div class="row">
+    <div class="col-lg-12 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Print Rekam Transaksi Salon</h4>
+                <form method="post" action="<?= base_url('transaksi/print_pdf'); ?>" target="_BLANK">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="example-text-input" class="col-form-label">Tanggal Awal</label>
+                            <input type="date" class="form-control" placeholder="Tanggal Awal" name="start_date">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="example-text-input" class="col-form-label">Tanggal Akhir</label>
+                            <input type="date" class="form-control" placeholder="Tanggal Akhir" name="end_date">
+                        </div>
+                    </div>
+                    <button class="btn btn-info btn-sm" id="button" type="submit"><i class="fa fa-print"></i> &nbsp;Cetak PDF</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="col-lg-12 mt-4">
         <?= $this->session->flashdata('message'); ?>
         <div class="card">
 
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4 class="header-title pt-2">Rekam Transaksi Salon</h4>
-                    </div>
-                    <div class="col-md-6">
-                        <a class="btn btn-info btn-xs pull-right" href="<?= base_url('transaksi/print_pdf') ?>" target="_BLANK"><i class="fa fa-print"></i> &nbsp;Cetak PDF</a>
-                    </div>
-                </div>
-                <hr>
+                <h4 class="header-title pt-2">Rekam Transaksi Salon</h4>
                 <div class="data-tables">
                     <table id="myTable" class="table table-bordered table-striped" width="100%">
                         <thead class="bg-light text-capitalize ">
@@ -22,6 +35,7 @@
                                 <th class="text-center" scope="col">No Telp</th>
                                 <th class="text-center" scope="col">Layanan</th>
                                 <th class="text-center" scope="col">Total Harga</th>
+                                <th class="text-center" scope="col">Tanggal</th>
                                 <th class="text-center" scope="col">Status Transaksi</th>
                             </tr>
                         </thead>
@@ -43,6 +57,7 @@
                                         ?>
                                     </td>
                                     <td>Rp. <?= number_format($row->harga, 0, ",", ".") ?> ,-</td>
+                                    <td><?= $row->tanggal; ?></td>
                                     <td class="text-center" valign="middle">
                                         <?php if ($row->status == '0') : ?>
                                             <span class="badge badge-danger"><i class="fa fa-close"></i> tidak datang</span>

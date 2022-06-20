@@ -257,10 +257,30 @@ class Transaksi extends CI_Controller
 
 	public function print_pdf()
 	{
+		$post       = $this->input->post();
+		$start_date = $post['start_date'];
+		$end_date   = $post['end_date'];
+
+		if (!empty($start_date) && !empty($end_date)) {
+			$title = "DATA TRANSAKSI RENTANG TANGGAL <b>{$start_date}</b> SAMPAI <b>{$end_date}</b>";
+			$where = "AND SUBSTRING(tanggal, 1, 10) BETWEEN  '${start_date}' AND '${end_date}'";
+		} elseif (!empty($start_date)) {
+			$title = "DATA TRANSAKSI DARI TANGGAL <b>{$start_date}</b> - SAMPAI <b>SEKARANG</b>";
+			$where = "AND SUBSTRING(tanggal, 1, 10) >= '${start_date}'";
+		} elseif (!empty($end_date)) {
+			$title = "DATA TRANSAKSI DARI <b>AWAL</b> HINGGA - <b>{$end_date}</b>";
+			$where = "AND SUBSTRING(tanggal, 1, 10) <=  '${end_date}'";
+		} else {
+			$title = "SEMUA DATA TRANSAKSI";
+			$where = '';
+		}
+
 		$sql = "SELECT td.id_transaksi, ml.layanan FROM transaksi t 
 				JOIN transaksi_detail td ON t.id = td.id_transaksi
 				JOIN master_layanan ml ON td.id_layanan = ml.id
-				WHERE t.status = '1';";
+				WHERE t.status = '1'
+				$where;";
+
 		$detail_transaksi = $this->db->query($sql)->result();
 
 		$temp = array();
@@ -268,8 +288,17 @@ class Transaksi extends CI_Controller
 			$temp[$row->id_transaksi][] = $row->layanan;
 		}
 
-		$data['transaksi']        = $this->Transaksi_model->get_transaksi_datang();
+		$sql = "SELECT t.*, SUM(td.harga) harga 
+                    FROM transaksi t 
+                    JOIN transaksi_detail td ON td.id_transaksi = t.id AND td.deleted_at IS NULL
+                    WHERE t.status = '1'
+					$where
+                    GROUP BY t.id ORDER BY t.id DESC;";
+
+
+		$data['transaksi']        = $this->db->query($sql);
 		$data['detail_transaksi'] = $temp;
+		$data['title']            = $title;
 
 		$html = $this->load->view('print_transaksi', $data, true);
 
