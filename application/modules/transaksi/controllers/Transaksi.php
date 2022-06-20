@@ -6,7 +6,7 @@ class Transaksi extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		if (!$this->ion_auth->logged_in()) {
+		if (!$this->ion_auth->logged_in() && $this->uri->segment(2) != 'insert') {
 			redirect('auth/login');
 		}
 		$this->load->model('Transaksi_model');
@@ -32,11 +32,11 @@ class Transaksi extends CI_Controller
 	public function insert()
 	{
 		$user     = $this->ion_auth->user()->row();
-		$id_trans = $this->_generate_id($_POST['id_transaksi']);
 		$post     = $this->input->post();
+		$id_trans = $this->_generate_id($post['id_transaksi'] ?? '');
 
-		// $this->db->trans_start(); # Starting Transaction
-		// $this->db->trans_strict(FALSE);
+		$this->db->trans_start(); # Starting Transaction
+		$this->db->trans_strict(FALSE);
 
 		$transaksi = [
 			'id_transaksi' => $id_trans,
@@ -46,7 +46,7 @@ class Transaksi extends CI_Controller
 			'tanggal'      => $post['date'] . ' ' . $post['time'] . ':00',
 			'status'       => $post['status'],
 			'created_at'   => date('Y-m-d H:i:s'),
-			'created_by'   => $user->id
+			'created_by'   => $user->id ?? '99'
 		];
 
 		$this->db->insert('transaksi', $transaksi);
@@ -70,7 +70,7 @@ class Transaksi extends CI_Controller
 				'id_layanan'   => $row,
 				'harga'        => $master_layanan[$row]['harga'],
 				'created_at'   => date('Y-m-d H:i:s'),
-				'created_by'   => $user->id,
+				'created_by'   => $user->id ?? '99',
 				'updated_at'   => NULL,
 				'updated_by'   => NULL,
 				'deleted_at'   => NULL,
@@ -79,7 +79,7 @@ class Transaksi extends CI_Controller
 			$this->db->insert('transaksi_detail', $insert_detail);
 		}
 
-		// $this->db->trans_complete();
+		$this->db->trans_complete();
 
 		if ($this->db->trans_status() === FALSE) {
 			# Something went wrong.
@@ -89,10 +89,19 @@ class Transaksi extends CI_Controller
 			# Everything is Perfect. 
 			# Committing data to the database.
 			$this->db->trans_commit();
-			$message = alert_success('Tambah data transaksi berhasil!');
+			if ($this->input->is_ajax_request()) {
+				$message = alert_success('Booking transaksi berhasil! Simpan id transaksi :<b> ' . $id_trans . ' </b>anda dan tunjukan pada petugas Salon!');
+			} else {
+				$message = alert_success('Tambah data transaksi berhasil!');
+			}
 		}
-		$this->session->set_flashdata('message', $message);
-		redirect('transaksi');
+
+		if ($this->input->is_ajax_request()) {
+			echo json_encode($message);
+		} else {
+			$this->session->set_flashdata('message', $message);
+			redirect('transaksi');
+		}
 	}
 
 	public function ubah($id_transaksi)
@@ -207,9 +216,9 @@ class Transaksi extends CI_Controller
 	private function _generate_id($id_transaksi = NULL)
 	{
 		$exist = $this->db->get_where('transaksi', ['id_transaksi' => $id_transaksi])->row();
-		if ($exist) {
+		if ($exist || empty($id_transaksi)) {
 			$new_id = 'PTRS-' . rand(10000, 99999);
-			$this->_generate_id($new_id);
+			return $this->_generate_id($new_id);
 		} else {
 			return $id_transaksi;
 		}

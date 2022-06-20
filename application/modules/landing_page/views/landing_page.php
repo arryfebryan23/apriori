@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="<?= base_url('assets/css/'); ?>nicepage.css" media="screen">
 	<link rel="stylesheet" href="<?= base_url('assets/css/'); ?>Home.css" media="screen">
 
-	<script class="u-script" type="text/javascript" src="<?= base_url('assets/js/'); ?>jquery.js" defer=""></script>
 	<script class="u-script" type="text/javascript" src="<?= base_url('assets/js/'); ?>nicepage.js" defer=""></script>
 
 	<link rel="stylesheet" href="<?= base_url(); ?>assets/css/default-css.css">
@@ -22,12 +21,21 @@
 	<meta property="og:title" content="Home">
 	<meta property="og:type" content="website">
 
+	<!-- jquery latest version -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/css/bootstrap.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+	<script src="<?= base_url() ?>/assets/js/vendor/jquery-2.2.4.min.js"></script>
+	<!-- <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script> -->
+	<!-- <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </head>
 
 <body data-home-page="Home.html" data-home-page-title="Home" class="u-body u-overlap u-xl-mode">
-	<div id="preloader">
+	<!-- <div id="preloader">
 		<div class="loader"></div>
-	</div>
+	</div> -->
 	<header class="u-clearfix u-header" id="sec-779f">
 		<div class="u-clearfix u-sheet u-sheet-1"><span class="u-file-icon u-icon u-text-white u-icon-1"><img src="<?= base_url('assets/img/') ?>1.png" alt=""></span>
 			<h2 class="u-subtitle u-text u-text-default u-text-1">Peterson<br>
@@ -233,36 +241,66 @@
 						<div class="u-align-left u-container-style u-layout-cell u-right-cell u-size-30 u-layout-cell-2">
 							<div class="u-container-layout u-container-layout-2">
 								<h1 class="u-align-center u-custom-font u-text u-text-default u-text-1">Book a Visit</h1>
-								<div class="u-align-center u-container-style u-expanded-width u-group u-palette-4-base u-shape-rectangle u-group-1">
-									<div class="u-container-layout u-valign-middle u-container-layout-3">
-										<p class="u-custom-font u-font-source-sans-pro u-text u-text-default u-text-2">Booking success ! Screenshoot o​​r save​ your Transaction ID!</p>
-									</div>
-								</div>
 								<div class="u-form u-form-1">
-									<form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" style="padding: 10px" source="email" name="form-1">
-										<div class="u-form-group u-label-none u-form-group-1">
-											<label for="text-1a63" class="u-label">Input</label>
-											<input type="text" placeholder="Transaction ID" id="text-1a63" name="text-1" class="u-border-1 u-border-grey-30 u-input u-input-rectangle">
+
+									<span id="alert-form">
+
+									</span>
+									<form method="post" id="form-insert">
+										<input type="hidden" name="data_from" value="landing_page">
+										<input type="hidden" name="status" value="9">
+										<div class="form-group row">
+											<div class="col-sm-12">
+												<!-- <label for="example-text-input" class="col-form-label">Nama Pelanggan</label> -->
+												<input type="text" class="form-control" placeholder="Nama pelanggan" name="nama" autocomplete="off" required>
+											</div>
 										</div>
-										<div class="u-form-group u-label-none u-form-group-2">
-											<label for="text-d50b" class="u-label">Input</label>
-											<input type="text" placeholder="Name" id="text-d50b" name="text" class="u-border-1 u-border-grey-30 u-input u-input-rectangle">
+										<div class="form-group row">
+											<div class="col-sm-6">
+												<!-- <label for="example-text-input" class="col-form-label">No. Telp</label> -->
+												<input type="text" class="form-control onlynumber" placeholder="No. Telp" name="no_telp" autocomplete="off" required>
+											</div>
+											<div class="col-sm-6">
+												<!-- <label for="example-text-input" class="col-form-label">Email</label> -->
+												<input type="email" class="form-control" placeholder="Email" name="email" autocomplete="off" required>
+											</div>
 										</div>
-										<div class="u-form-group u-form-name u-label-none">
-											<label for="name-c359" class="u-label">Name</label>
-											<input type="text" placeholder="Date" id="name-c359" name="name" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
+										<div class="form-group row">
+											<div class="col-sm-6">
+												<!-- <label for="example-text-input" class="col-form-label">Tanggal</label> -->
+												<input type="date" class="form-control" placeholder="Tanggal" name="date" autocomplete="off" value="<?= date('Y-m-d'); ?>" required>
+											</div>
+											<div class="col-sm-6">
+												<!-- <label for="example-text-input" class="col-form-label">Jam</label> -->
+												<input type="time" class="form-control" placeholder="Tanggal" name="time" autocomplete="off" value="<?= date('H:i'); ?>" required>
+											</div>
 										</div>
-										<div class="u-form-email u-form-group u-label-none">
-											<label for="email-c359" class="u-label">Email</label>
-											<input type="email" placeholder="Product/Service" id="email-c359" name="email" class="u-border-1 u-border-grey-30 u-input u-input-rectangle" required="">
+
+										<div class="form-group row">
+											<div class="col-sm-12">
+												<!-- <label for="example-text-input" class="col-form-label">Total</label> -->
+												<input type="text" class="form-control" placeholder="Total" name="total_harga" autocomplete="off" value="Rp. 0,-" id="total-harga" readonly>
+											</div>
 										</div>
-										<div class="u-align-left u-form-group u-form-submit">
-											<a href="#" class="u-active-white u-black u-border-2 u-border-active-white u-border-black u-border-hover-black u-btn u-btn-submit u-button-style u-hover-black u-text-active-black u-text-body-alt-color u-text-hover-white u-btn-1">Submit</a>
-											<input type="submit" value="submit" class="u-form-control-hidden">
+
+										<div class="form-group row">
+											<div class="col-sm-12">
+												<h1 class="u-align-center u-custom-font u-text u-text-default u-text-1">Product & Service</h1>
+												<hr>
+												<select class=" form-control js-example-basic-multiple" name="layanan[]" id="multipleSelect" multiple="multiple" onchange="hitung_total(this)" required>
+													<?php foreach ($master_layanan->result() as $row) : ?>
+														<option value="<?= $row->id ?>" data-harga="<?= $row->harga ?>"><?= $row->layanan ?> (Rp. <?= number_format($row->harga, 0, ",", ".") ?> ,-)</option>
+													<?php endforeach; ?>
+												</select>
+											</div>
 										</div>
-										<div class="u-form-send-message u-form-send-success">Thank you! Your message has been sent.</div>
-										<div class="u-form-send-error u-form-send-message">Unable to send your message. Please fix errors then try again.</div>
-										<input type="hidden" value="" name="recaptchaResponse">
+										<hr>
+										<span class="pull-right">
+											<div class="u-align-left u-form-group u-form-submit">
+												<button type="submit" class="u-active-white u-black u-border-2 u-border-active-white u-border-black u-border-hover-black u-btn u-btn-submit u-button-style u-hover-black u-text-active-black u-text-body-alt-color u-text-hover-white u-btn-1">Booking</button>
+												<input type="submit" value="submit" class="u-form-control-hidden">
+											</div>
+										</span>
 									</form>
 								</div>
 							</div>
@@ -324,10 +362,100 @@
 	</footer>
 </body>
 
-<!-- jquery latest version -->
-<script src="<?= base_url(); ?>assets/js/vendor/jquery-2.2.4.min.js"></script>
 <!-- others plugins -->
-<script src="<?= base_url(); ?>assets/js/scripts.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.js-example-basic-multiple').select2({
+			allowClear: true
+		});
+	});
 
+	$(function() {
+		$(".onlynumber").on('input', function(e) {
+			$(this).val($(this).val().replace(/[^0-9]/g, ''));
+		});
+	});
+
+	function hitung_total(e) {
+		let total = 0;
+		$("#multipleSelect :selected").map(function(i, el) {
+			total += $(el).data('harga');
+		}).get();
+		total = numberWithCommas(total);
+		$('#total-harga').val('Rp. ' + total + ',-');
+	}
+
+	function numberWithCommas(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+	}
+	var my_func = function(event) {
+		event.preventDefault();
+		// $('#card-apriori').show();
+		// $('#loader-gif').show();
+		// $("#hasil-content").hide();
+		// $('.my-table').DataTable().destroy();
+
+		// $('#button').attr('disabled', true);
+		// $('#print-btn').attr('disabled', true);
+
+		var form = $("#form-insert");
+		// var form = document.getElementById("form-insert");
+		$.ajax({
+			type: "POST",
+			url: "<?= base_url('transaksi/insert') ?>",
+			dataType: 'json',
+			data: form.serialize(),
+			// headers: {
+			// 	"Content-Type": "application/json"
+			// },
+			success: function(response) {
+				console.log(response);
+				$("#alert-form").html(response);
+				// response.frequent = Object.keys(response.frequent)
+				// 	.map(function(key) {
+				// 		return response.frequent[key];
+				// 	});
+
+				// response.samples = Object.keys(response.samples)
+				// 	.map(function(key) {
+				// 		return response.samples[key];
+				// 	});
+
+				// let sample = create_row_sample(response.samples);
+				// let result = create_row_hasil(response.result);
+				// let frequent_apriori = create_frequent(response.frequent);
+
+
+				// $('#pdf-support').val(response.support);
+				// $('#pdf-confidence').val(response.confidence);
+				// $('#pdf-start-date').val(response.start_date);
+				// $('#pdf-end-date').val(response.end_date);
+
+				// $('#support').html(response.support);
+				// $('#confidence').html(response.confidence);
+				// $('#start_date').html(response.start_date);
+				// $('#end_date').html(response.end_date);
+
+				// $('#sample-apriori').html(sample);
+				// $('#result-apriori').html(result);
+				// $('#frequent-apriori').html(frequent_apriori);
+			},
+			complete: function() {
+				// $('.my-table').DataTable();
+				// $("#hasil-content").fadeIn('slow');
+				// $('#button').attr('disabled', false);
+				// $('#print-btn').attr('disabled', false);
+				// $('#loader-gif').hide();
+				// $('#form-pdf').fadeIn('slow');
+				form[0].reset();
+			}
+		});
+	};
+
+	// attach event listener
+	var form = document.getElementById("form-insert");
+	form.addEventListener("submit", my_func, true);
+</script>
+<script src="<?= base_url(); ?>assets/js/scripts.js"></script>
 
 </html>

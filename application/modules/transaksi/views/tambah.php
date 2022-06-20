@@ -36,7 +36,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="example-text-input" class="col-form-label">Jam</label>
-                            <input type="time" class="form-control" placeholder="Tanggal" name="time" autocomplete="off" value="" required>
+                            <input type="time" class="form-control" placeholder="Tanggal" name="time" autocomplete="off" value="<?= date('H:i'); ?>" required>
                         </div>
                     </div>
 
