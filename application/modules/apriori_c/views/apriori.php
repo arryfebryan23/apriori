@@ -228,7 +228,7 @@
             body += items;
             // End of Antecedet
 
-            body += "</th>";
+            body += "</td>";
             i++;
         });
 

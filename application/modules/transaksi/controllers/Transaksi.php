@@ -90,7 +90,7 @@ class Transaksi extends CI_Controller
 			# Committing data to the database.
 			$this->db->trans_commit();
 			if ($this->input->is_ajax_request()) {
-				$message = alert_success('Booking transaksi berhasil! Simpan id transaksi :<b> ' . $id_trans . ' </b>anda dan tunjukan pada petugas Salon!');
+				$message = alert_success('Booking transaksi berhasil! Simpan id transaksi anda dan tunjukan pada petugas Salon! <br> Id Transaksi : <b> ' . $id_trans . ' </b>');
 			} else {
 				$message = alert_success('Tambah data transaksi berhasil!');
 			}
@@ -226,7 +226,6 @@ class Transaksi extends CI_Controller
 
 	public function rekam_transaksi()
 	{
-
 		$sql = "SELECT td.id_transaksi, ml.layanan FROM transaksi t 
 				JOIN transaksi_detail td ON t.id = td.id_transaksi
 				JOIN master_layanan ml ON td.id_layanan = ml.id
