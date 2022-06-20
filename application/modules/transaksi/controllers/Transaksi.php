@@ -238,7 +238,7 @@ class Transaksi extends CI_Controller
 			$temp[$row->id_transaksi][] = $row->layanan;
 		}
 
-		$data['transaksi']        = $this->Transaksi_model->get_all_transaksi();
+		$data['transaksi']        = $this->Transaksi_model->get_transaksi_datang();
 		$data['page']             = 'rekam_transaksi';
 		$data['detail_transaksi'] = $temp;
 
