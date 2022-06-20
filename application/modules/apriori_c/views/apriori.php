@@ -265,9 +265,9 @@
             // End of Consequent
 
             body += "</td>";
-            body += "<td>" + row.support + "</td>";
-            body += "<td>" + row.confidence + "</td>";
-            body += "<td>" + row.support * row.confidence + "</td>";
+            body += "<td>" + row.support.toFixed(2) * 100 + "%</td>";
+            body += "<td>" + row.confidence.toFixed(2) * 100 + "%</td>";
+            body += "<td>" + (row.support * row.confidence).toFixed(2) * 100 + "%</td>";
             body += "</th>";
             i++;
         });
@@ -313,7 +313,7 @@
                 // End of Itemset
 
                 body += "                    <td>" + r.frequency + "</td>";
-                body += "                    <td>" + r.support.toFixed(2) + "</td>";
+                body += "                    <td>" + r.support.toFixed(2) * 100 + "%</td>";
                 body += "                </tr>";
                 j++;
             });

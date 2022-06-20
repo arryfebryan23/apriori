@@ -159,9 +159,9 @@
                                                 }
                                                 echo substr($item, 0, strlen($item) - 2); ?>
                                             </td>
-                                            <td><?= $row['support'] ?></td>
-                                            <td><?= $row['confidence'] ?></td>
-                                            <td><?= $row['support'] * $row['confidence'] ?></td>
+                                            <td><?= number_format($row['support'], 2) * 100 . '%';  ?></td>
+                                            <td><?= number_format($row['confidence'], 2) * 100 . '%';  ?></td>
+                                            <td><?= number_format($row['support'] * $row['confidence'], 2) * 100 . '%'; ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -203,8 +203,8 @@
                                                         }
                                                         echo substr($item, 0, strlen($item) - 2); ?>
                                                     </td>
-                                                    <td><?= $r['frequency'] ?></td>
-                                                    <td><?= $r['support'] ?></td>
+                                                    <td><?= $r['frequency'];  ?></td>
+                                                    <td><?= number_format($r['support'], 2) * 100 . '%';  ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
