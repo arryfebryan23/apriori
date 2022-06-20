@@ -317,25 +317,31 @@
                         </tr>
                     </thead>
                     <tbody class="u-black u-table-body u-table-body-1" id="tbody-jadwal">
-                        <?php foreach ($transaksi->result() as $row) : ?>
+                        <?php if ($transaksi->num_rows() > 0) : ?>
+                            <?php foreach ($transaksi->result() as $row) : ?>
+                                <tr style="height: 41px;">
+                                    <td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4">
+                                        <!-- <?= preg_replace("/(^.|.$)(*SKIP)(*F)|(.)/", "*", $row->nama) ?> -->
+                                        <?= $row->nama; ?>
+                                    </td>
+                                    <td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">
+                                        <?php
+                                        $temp = '';
+                                        foreach ($detail_transaksi[$row->id] as $r) :
+                                            $temp .= $r . ', ';
+                                        endforeach;
+                                        $temp = substr($temp, 0, strlen($temp) - 2);
+                                        echo $temp;
+                                        ?>
+                                    </td>
+                                    <td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6"><?= $row->tanggal ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
                             <tr style="height: 41px;">
-                                <td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4">
-                                    <!-- <?= preg_replace("/(^.|.$)(*SKIP)(*F)|(.)/", "*", $row->nama) ?> -->
-                                    <?= $row->nama; ?>
-                                </td>
-                                <td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">
-                                    <?php
-                                    $temp = '';
-                                    foreach ($detail_transaksi[$row->id] as $r) :
-                                        $temp .= $r . ', ';
-                                    endforeach;
-                                    $temp = substr($temp, 0, strlen($temp) - 2);
-                                    echo $temp;
-                                    ?>
-                                </td>
-                                <td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6"><?= $row->tanggal ?></td>
+                                <td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4" colspan="3">Tidak ada data pada tanggal ini.</td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
