@@ -19,7 +19,6 @@
                             <tr>
                                 <th class="text-center" scope="col">No.</th>
                                 <th class="text-center" scope="col">Nama</th>
-                                <th class="text-center" scope="col">Email</th>
                                 <th class="text-center" scope="col">No Telp</th>
                                 <th class="text-center" scope="col">Layanan</th>
                                 <th class="text-center" scope="col">Total Harga</th>
@@ -32,7 +31,6 @@
                                 <tr>
                                     <td class="text-center"><?= $i++; ?></td>
                                     <td><?= $row->nama; ?></td>
-                                    <td><?= $row->email; ?></td>
                                     <td><?= $row->no_telp; ?></td>
                                     <td>
                                         <?php
