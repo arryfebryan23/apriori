@@ -14,8 +14,10 @@
                         <thead class="bg-light text-capitalize ">
                             <tr>
                                 <th class="text-center" scope="col">No.</th>
+                                <th class="text-center" scope="col">Id Trans</th>
                                 <th class="text-center" scope="col">Nama</th>
                                 <th class="text-center" scope="col">No Telp</th>
+                                <th class="text-center" scope="col">Layanan</th>
                                 <th class="text-center" scope="col">Total Harga</th>
                                 <th class="text-center" scope="col">Status Transaksi</th>
                                 <th class="text-center" scope="col">Aksi</th>
@@ -26,8 +28,19 @@
                             foreach ($transaksi->result() as $row) : ?>
                                 <tr>
                                     <td class="text-center"><?= $i++; ?></td>
+                                    <td><?= $row->id_transaksi; ?></td>
                                     <td><?= $row->nama; ?></td>
                                     <td><?= $row->no_telp; ?></td>
+                                    <td>
+                                        <?php
+                                        $temp = '';
+                                        foreach ($detail_transaksi[$row->id] as $r) :
+                                            $temp .= $r . ', ';
+                                        endforeach;
+                                        $temp = substr($temp, 0, strlen($temp) - 2);
+                                        echo $temp;
+                                        ?>
+                                    </td>
                                     <td>Rp. <?= number_format($row->harga, 0, ",", ".") ?> ,-</td>
                                     <td class="text-center" valign="middle">
                                         <?php if ($row->status == '0') : ?>
@@ -39,7 +52,7 @@
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">
-                                        <a class="btn btn-info btn-xs" href="<?= base_url('transaksi/ubah/' . $row->id) ?>"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-info btn-xs" href="<?= base_url('transaksi/ubah/' . $row->id_transaksi) ?>"><i class="fa fa-edit"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

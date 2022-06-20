@@ -14,6 +14,17 @@ class Transaksi extends CI_Controller
 
 	public function index()
 	{
+		$sql = "SELECT td.id_transaksi, ml.layanan FROM transaksi t 
+		JOIN transaksi_detail td ON t.id = td.id_transaksi
+		JOIN master_layanan ml ON td.id_layanan = ml.id;";
+		$detail_transaksi = $this->db->query($sql)->result();
+
+		$temp = array();
+		foreach ($detail_transaksi as $row) {
+			$temp[$row->id_transaksi][] = $row->layanan;
+		}
+
+		$data['detail_transaksi'] = $temp;
 		$data['transaksi'] = $this->Transaksi_model->get_all_transaksi();
 
 		$data['page'] = 'transaksi';
@@ -106,14 +117,14 @@ class Transaksi extends CI_Controller
 
 	public function ubah($id_transaksi)
 	{
-		$sql = "SELECT *, t.id, SUM(td.harga) harga FROM transaksi t 
+		$sql = "SELECT *, t.id, t.id_transaksi, SUM(td.harga) harga FROM transaksi t 
 					JOIN transaksi_detail td ON t.id = td.id_transaksi AND td.deleted_at IS NULL
-					WHERE t.id = '${id_transaksi}'
+					WHERE t.id_transaksi = '${id_transaksi}'
 					GROUP BY t.id;";
 
 		$data['transaksi'] = $this->db->query($sql)->row();
 
-		$sql = "SELECT * FROM transaksi_detail td WHERE id_transaksi = '{$data['transaksi']->id_transaksi}' AND deleted_at IS NULL";
+		$sql = "SELECT * FROM transaksi_detail td WHERE id_transaksi = '{$data['transaksi']->id}' AND deleted_at IS NULL";
 		$data['transaksi_detail'] = $this->db->query($sql)->result_array();
 		$data['transaksi_detail'] = array_column($data['transaksi_detail'], 'id_layanan');
 
@@ -210,7 +221,7 @@ class Transaksi extends CI_Controller
 			$message = alert_success('Ubah data transaksi berhasil!');
 		}
 		$this->session->set_flashdata('message', $message);
-		redirect('transaksi/ubah/' . $post['id_transaksi']);
+		redirect('transaksi/ubah/' . $post['kd_transaksi']);
 	}
 
 	private function _generate_id($id_transaksi = NULL)
