@@ -53,7 +53,7 @@ class Transaksi extends CI_Controller
 			'id_transaksi' => $id_trans,
 			'nama'         => $post['nama'],
 			'no_telp'      => $post['no_telp'],
-			'email'        => $post['email'],
+			'email'        => $post['email'] ?? '',
 			'tanggal'      => $post['date'] . ' ' . $post['time'] . ':00',
 			'status'       => $post['status'],
 			'created_at'   => date('Y-m-d H:i:s'),
