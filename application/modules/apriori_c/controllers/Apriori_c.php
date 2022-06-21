@@ -50,11 +50,11 @@ class Apriori_c extends CI_Controller
 		$end_date = $data['end_date'];
 
 		if (!empty($start_date) && !empty($end_date)) {
-			$where = "AND SUBSTRING(tanggal, 1, 10) BETWEEN  '${start_date}' AND '${end_date}';";
+			$where = "AND SUBSTRING(tanggal, 1, 10) BETWEEN  '${start_date}' AND '${end_date}'";
 		} elseif (!empty($start_date)) {
-			$where = "AND SUBSTRING(tanggal, 1, 10) >= '${start_date}';";
+			$where = "AND SUBSTRING(tanggal, 1, 10) >= '${start_date}'";
 		} elseif (!empty($end_date)) {
-			$where = "AND SUBSTRING(tanggal, 1, 10) <=  '${end_date}';";
+			$where = "AND SUBSTRING(tanggal, 1, 10) <=  '${end_date}'";
 		} else {
 			$where = '';
 		}
