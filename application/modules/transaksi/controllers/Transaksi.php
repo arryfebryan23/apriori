@@ -15,7 +15,7 @@ class Transaksi extends CI_Controller
 	public function index()
 	{
 		$sql = "SELECT td.id_transaksi, ml.layanan FROM transaksi t 
-		JOIN transaksi_detail td ON t.id = td.id_transaksi
+		JOIN transaksi_detail td ON t.id = td.id_transaksi AND td.deleted_at IS NULL
 		JOIN master_layanan ml ON td.id_layanan = ml.id;";
 		$detail_transaksi = $this->db->query($sql)->result();
 
@@ -238,7 +238,7 @@ class Transaksi extends CI_Controller
 	public function rekam_transaksi()
 	{
 		$sql = "SELECT td.id_transaksi, ml.layanan FROM transaksi t 
-				JOIN transaksi_detail td ON t.id = td.id_transaksi
+				JOIN transaksi_detail td ON t.id = td.id_transaksi AND td.deleted_at IS NULL
 				JOIN master_layanan ml ON td.id_layanan = ml.id
 				WHERE t.status = '1';";
 		$detail_transaksi = $this->db->query($sql)->result();
@@ -276,7 +276,7 @@ class Transaksi extends CI_Controller
 		}
 
 		$sql = "SELECT td.id_transaksi, ml.layanan FROM transaksi t 
-				JOIN transaksi_detail td ON t.id = td.id_transaksi
+				JOIN transaksi_detail td ON t.id = td.id_transaksi AND td.deleted_at IS NULL
 				JOIN master_layanan ml ON td.id_layanan = ml.id
 				WHERE t.status = '1'
 				$where;";
