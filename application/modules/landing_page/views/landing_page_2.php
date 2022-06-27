@@ -255,7 +255,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-6">
                                                 <!-- <label for="example-text-input" class="col-form-label">Tanggal</label> -->
-                                                <input type="date" class="form-control" name="date" autocomplete="off" value="<?= date('Y-m-d'); ?>" required>
+                                                <input type="date" class="form-control" name="date" autocomplete="off" id="date" value="<?= date('Y-m-d'); ?>" required>
                                             </div>
                                             <div class="col-sm-6">
                                                 <!-- <label for="example-text-input" class="col-form-label">Jam</label> -->
@@ -303,7 +303,7 @@
             <div class="form-group row">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
-                    <input type="date" class="form-control" name="tanggal_jadwal" onchange="changeJadwal(this)" value="<?= date('Y-m-d') ?>">
+                    <input type="date" class="form-control" name="tanggal_jadwal" onchange="changeJadwal(this)" value="<?= date('Y-m-d') ?>" id="tanggal_jadwal">
                 </div>
                 <div class="col-sm-3"></div>
             </div>
@@ -433,8 +433,13 @@
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    function changeJadwal(e) {
-        console.log(e.value);
+    function changeJadwal(e, date = null) {
+        let tgl;
+        if (date != null) {
+            tgl = date;
+        } else {
+            tgl = e.value;
+        }
         $('#tbody-jadwal').html('<tr style="height: 41px;"><th colspan="3" style="text-align:center; font-size:25px;"><i class="fa fa-spinner fa-pulse"></i></th></tr>');
         e.readOnly = true;
         setTimeout(function() {
@@ -443,10 +448,9 @@
                 url: "<?= base_url('landing_page/jadwal_transaksi') ?>",
                 dataType: 'json',
                 data: {
-                    'tanggal': e.value
+                    'tanggal': tgl
                 },
                 success: function(response) {
-                    console.log(response.detail_transaksi[34]);
                     if (response.transaksi.length > 0) {
                         let tbody = '';
                         response.transaksi.map(function(row) {
@@ -503,10 +507,14 @@
                     }
                 },
                 complete: function() {
+                    let date = $('#date').val();
+                    let e = document.getElementById("tanggal_jadwal");
+                    changeJadwal(e, date);
                     form[0].reset();
                     $("#total-harga").prop("readonly", true);
                     $(".js-example-basic-multiple").val("");
                     $(".js-example-basic-multiple").trigger("change");
+
                 }
             });
         }, 1500);
