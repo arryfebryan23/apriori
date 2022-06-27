@@ -146,7 +146,7 @@
         <!-- footer area start-->
         <footer>
             <div class="footer-area">
-                <p>© Copyright Peterso Salon 2022. All right reserved.</p>
+                <p>© Copyright Peterson Salon 2022. All right reserved.</p>
             </div>
         </footer>
         <!-- footer area end-->
