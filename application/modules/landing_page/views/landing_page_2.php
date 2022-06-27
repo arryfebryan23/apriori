@@ -97,7 +97,7 @@
         <div class="u-carousel-inner" role="listbox">
             <div class="skrollable u-active u-align-center u-carousel-item u-clearfix u-image u-parallax u-shading u-section-1-1" src="" data-image-width="150" data-image-height="119">
                 <div class="u-clearfix u-sheet u-sheet-1">
-                    <h1 class="u-align-center u-text u-title u-text-1">PETERSON &amp; SALON</h1>
+                    <h1 class="u-align-center u-text u-title u-text-1">PETERSON <br> SALON</h1>
                     <p class="u-large-text u-text u-text-default u-text-variant u-text-2">Kedung Pengawas, Kec. Babelan ,Kab. Bekasi<br>+62-812-8035-1314
 
                     <p class="u-large-text u-text u-text-default u-text-variant u-text-2">
