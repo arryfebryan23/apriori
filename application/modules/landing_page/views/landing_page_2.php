@@ -99,8 +99,13 @@
                 <div class="u-clearfix u-sheet u-sheet-1">
                     <h1 class="u-align-center u-text u-title u-text-1">HAIR &amp; BEAUTY SALON</h1>
                     <p class="u-large-text u-text u-text-default u-text-variant u-text-2">Kedung Pengawas, Kec. Babelan ,Kab. Bekasi<br>+62-812-8035-1314
+
+                    <p class="u-large-text u-text u-text-default u-text-variant u-text-2">
+                        Want to order? Click link below!
                     </p>
-                    <a href="#booking" class="u-border-1 u-border-hover-white u-border-white u-btn u-button-style u-hover-feature u-hover-white u-none u-text-body-alt-color u-text-hover-black u-btn-1">book A Visit<br>
+
+
+                    <a href="#booking" class="u-border-1 u-border-hover-white u-border-white u-btn u-button-style u-hover-feature u-hover-white u-none u-text-body-alt-color u-text-hover-black u-btn-1" style="margin-top: 15px;">book A Visit<br>
                     </a>
                 </div>
             </div>
@@ -430,7 +435,8 @@
 
     function changeJadwal(e) {
         console.log(e.value);
-        $('#tbody-jadwal').html('<tr style="height: 41px;"><td colspan="3"><i class="fa fa-spinner fa-pulse"></i> Loading !!</td></tr>');
+        $('#tbody-jadwal').html('<tr style="height: 41px;"><th colspan="3" style="text-align:center; font-size:25px;"><i class="fa fa-spinner fa-pulse"></i></th></tr>');
+        e.readOnly = true;
         setTimeout(function() {
             $.ajax({
                 type: "POST",
@@ -464,9 +470,12 @@
                     } else {
                         $('#tbody-jadwal').html('<tr style="height: 41px;"><th colspan="3">Tidak ada data pada tanggal ini.</th></tr>');
                     }
+                },
+                complete: function() {
+                    e.readOnly = false;
                 }
             });
-        }, 500);
+        }, 1000);
     }
 
     var my_func = function(event) {
