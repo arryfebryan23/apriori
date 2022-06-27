@@ -25,14 +25,7 @@ class Apriori_c extends CI_Controller
 
 	public function hitung()
 	{
-		$data['support'] = 0.2;
-		$data['confidence'] = 0.6;
-		$data['start_date'] = '';
-		$data['end_date'] = '';
-
-
-		// $hasil = $this->analisa_apriori($this->input->post());
-		$hasil = $this->analisa_apriori($data);
+		$hasil = $this->analisa_apriori($this->input->post());
 		$this->_insert_history($hasil);
 
 		echo json_encode($hasil);
@@ -96,7 +89,8 @@ class Apriori_c extends CI_Controller
 								ml.id = td.id_layanan
 						) AS id_layanan 
 					FROM transaksi_detail td
-					WHERE td.id_transaksi = {$row['id']};";
+					WHERE td.id_transaksi = {$row['id']}
+						AND td.deleted_at IS NULL;";
 			$res = $this->db->query($sql)->result_array();
 
 			$arr_tmp = array();
