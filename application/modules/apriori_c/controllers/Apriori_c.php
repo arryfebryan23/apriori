@@ -14,6 +14,7 @@ class Apriori_c extends CI_Controller
 		if (!$this->ion_auth->logged_in()) {
 			redirect('auth/login');
 		}
+		$this->user = $this->ion_auth->user()->row();
 	}
 
 	public function index()
@@ -24,7 +25,16 @@ class Apriori_c extends CI_Controller
 
 	public function hitung()
 	{
-		$hasil = $this->analisa_apriori($this->input->post());
+		$data['support'] = 0.2;
+		$data['confidence'] = 0.6;
+		$data['start_date'] = '';
+		$data['end_date'] = '';
+
+
+		// $hasil = $this->analisa_apriori($this->input->post());
+		$hasil = $this->analisa_apriori($data);
+		$this->_insert_history($hasil);
+
 		echo json_encode($hasil);
 	}
 
@@ -143,5 +153,108 @@ class Apriori_c extends CI_Controller
 		];
 
 		return $hasil;
+	}
+
+	private function _insert_history($hasil)
+	{
+		$this->db->trans_start();
+		$this->db->trans_strict(FALSE);
+
+
+		// MASTER ANALISA
+		$analisa = [
+			'min_support'    => $hasil['support'],
+			'min_confidence' => $hasil['confidence'],
+			'start_date'     => $hasil['start_date'],
+			'end_date'       => $hasil['end_date'],
+			'created_at'     => date('Y-m-d H:i:s'),
+			'created_by'	 => $this->user->id
+		];
+		$this->db->insert('analisa_apriori', $analisa);
+		$id_analisa = $this->db->insert_id();
+
+		// BEGIN SAMPLES
+		$analis_samples = array();
+		foreach ($hasil['samples'] as $r) {
+			$temp = '';
+			foreach ($r['itemset'] as $item) {
+				$temp .= $item . ', ';
+			}
+			$item = substr($temp, 0, strlen($temp) - 2);
+
+			$analis_samples[] = [
+				'id_analisa'   => $id_analisa,
+				'id_transaksi' => $r['id_transaksi'],
+				'nama'         => $r['nama'],
+				'tanggal'      => $r['tanggal'],
+				'itemset'      => $item
+			];
+		}
+		// END SAMPLES
+
+		// BGEIN FREQUENT
+		$analisa_frequent = array();
+		$i = 0;
+		foreach ($hasil['frequent'] as $row) {
+			$i++;
+			foreach ($row as $r) {
+				$temp = '';
+				foreach ($r['itemset'] as $item) {
+					$temp .= $item . ', ';
+				}
+				$item = substr($temp, 0, strlen($temp) - 2);
+				$analisa_frequent[] = [
+					'id_analisa' => $id_analisa,
+					'iterasi'    => $i,
+					'item'       => $item,
+					'frequency'  => $r['frequency'],
+					'support'    => $r['support']
+				];
+			}
+		}
+		// END FREQUENT
+
+		// BEGIN HASIL
+		$analisa_result = array();
+		foreach ($hasil['result'] as $r) {
+			$temp = '';
+			foreach ($r['antecedent'] as $item) {
+				$temp .= $item . ', ';
+			}
+			$antecedent = substr($temp, 0, strlen($temp) - 2);
+
+			$temp = '';
+			foreach ($r['consequent'] as $item) {
+				$temp .= $item . ', ';
+			}
+			$consequent = substr($temp, 0, strlen($temp) - 2);
+
+			$analisa_result[] = [
+				'id_analisa' => $id_analisa,
+				'antecedent' => $antecedent,
+				'consequent' => $consequent,
+				'support'    => $r['support'],
+				'confidence' => $r['confidence']
+			];
+		}
+		// END HASIL
+
+
+		$this->db->insert_batch('analisa_apriori_samples',  $analis_samples);
+		$this->db->insert_batch('analisa_apriori_result', $analisa_result);
+		$this->db->insert_batch('analisa_apriori_frequent', $analisa_frequent);
+		$this->db->trans_complete();
+
+
+		if ($this->db->trans_status() === FALSE) {
+			# Something went wrong.
+			$this->db->trans_rollback();
+			return FALSE;
+		} else {
+			# Everything is Perfect. 
+			# Committing data to the database.
+			$this->db->trans_commit();
+			return TRUE;
+		}
 	}
 }
