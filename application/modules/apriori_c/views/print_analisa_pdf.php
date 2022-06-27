@@ -48,177 +48,201 @@
         }
     </style>
     <div class="col-lg-12 mt-4" id="card-apriori">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="text-center">Hasil Perhitungan Apriori Peterson Salon</h4>
-                <hr style="margin:10px">
-                <div id="hasil-content">
-                    <!-- BEGIN : FILTER APRIORI -->
-                    <table class="no-border">
-                        <tr>
-                            <td class="no-border">Minimal Support</td>
-                            <td class="no-border text-center" width="20px">:</td>
-                            <td class="no-border" id="support"><?= $support ?></td>
-                        </tr>
-                        <tr>
-                            <td class="no-border">Minimal Confidence</td>
-                            <td class="no-border text-center">:</td>
-                            <td class="no-border" id="confidence"><?= $confidence ?></td>
-                        </tr>
-                        <tr>
-                            <td class="no-border">Tanggal Awal</td>
-                            <td class="no-border text-center">:</td>
-                            <td class="no-border" id="start_date"><?= $start_date ?></td>
-                        </tr>
-                        <tr>
-                            <td class="no-border">Tanggal Akhir</td>
-                            <td class="no-border  text-center">:</td>
-                            <td class="no-border" id="end_date"><?= $end_date ?></td>
-                        </tr>
-                    </table>
-                    <!-- END : FILTER APRIORI -->
+        <p style="text-align: center; margin:0px;">
+            <b style="font-size: x-large;">PETERSON SALON</b><br>
+            Kedung Pengawas, Kec. Babelan, Kab. Bekasi, Jawa Barat 17610 <br>
+            Telp : 081280351314, 081293767969<br>
+            Email : <a href="">petersonsalon.babelan@gmail.com</a>
+        </p>
+        <hr>
+        <div id="hasil-content">
+            <!-- BEGIN : FILTER APRIORI -->
+            <table class="no-border" width="100%">
+                <tr>
+                    <td class="no-border" colspan="3">
+                        Hasil Perhitungan Apriori Peterson Salon
+                    </td>
+                </tr>
+                <tr>
+                    <td class="no-border" width="150px">Minimal Support</td>
+                    <td class="no-border text-center" width="20px">:</td>
+                    <td class="no-border" id="support"><?= $support ?></td>
+                </tr>
+                <tr>
+                    <td class="no-border">Minimal Confidence</td>
+                    <td class="no-border text-center">:</td>
+                    <td class="no-border" id="confidence"><?= $confidence ?></td>
+                </tr>
+                <tr>
+                    <td class="no-border">Tanggal Awal</td>
+                    <td class="no-border text-center">:</td>
+                    <td class="no-border" id="start_date"><?= $start_date ?></td>
+                </tr>
+                <tr>
+                    <td class="no-border">Tanggal Akhir</td>
+                    <td class="no-border  text-center">:</td>
+                    <td class="no-border" id="end_date"><?= $end_date ?></td>
+                </tr>
+            </table>
+            <!-- END : FILTER APRIORI -->
 
-                    <!-- BEGIN : DATASET TERPILIH -->
-                    <hr style="margin:10px">
+            <!-- BEGIN : DATASET TERPILIH -->
+            <hr style="margin:10px">
 
-                    <h4 class="header-title text-info">Dataset Terpilih</h4>
-                    <div class="data-tables">
-                        <table class="table table-bordered table-striped" width="100%">
-                            <thead class="bg-light text-capitalize">
+            <h4 class="header-title text-info">Dataset Terpilih</h4>
+            <div class="data-tables">
+                <table class="table table-bordered table-striped" width="100%">
+                    <thead class="bg-light text-capitalize">
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">ID Transaksi</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Nomor Telp</th>
+                            <th scope="col">Tanggal Transaksi</th>
+                            <th scope="col">Layanan/Produk</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sample-apriori">
+                        <?php
+                        $i = 1;
+                        foreach ($samples as $row) : ?>
+                            <tr>
+                                <td class="text-center"><?= $i++; ?></td>
+                                <td><?= $row['id_transaksi'] ?></td>
+                                <td><?= $row['nama'] ?></td>
+                                <td><?= $row['no_telp'] ?></td>
+                                <td><?= $row['tanggal'] ?></td>
+                                <td>
+                                    <?php
+                                    $item = '';
+                                    foreach ($row['itemset'] as $key) {
+                                        $item .= $key . ', ';
+                                    }
+                                    echo substr($item, 0, strlen($item) - 2); ?>
+
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <!-- END : DATASET TERPILIH -->
+
+            <!-- BEGIN : ASOSIASIN FINAL  -->
+            <hr>
+            <h4 class="header-title text-success">Asosiasi Final</h4>
+            <div class="single-table">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="text-uppercase">
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Antecedent</th>
+                                <th scope="col">Consequent</th>
+                                <th scope="col">Support</th>
+                                <th scope="col">Confidence</th>
+                                <!-- <th scope="col">Support * Confidence</th> -->
+                            </tr>
+                        </thead>
+                        <tbody id="result-apriori">
+                            <?php
+                            $i = 1;
+                            foreach ($result as $row) :
+                            ?>
                                 <tr>
-                                    <th scope="col">No.</th>
-                                    <th scope="col">ID Transaksi</th>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">Nomor Telp</th>
-                                    <th scope="col">Tanggal Transaksi</th>
-                                    <th scope="col">Layanan/Produk</th>
+                                    <td class="text-center"><?= $i++; ?></td>
+                                    <td>
+                                        <?php
+                                        $item = '';
+                                        foreach ($row['antecedent'] as $key) {
+                                            $item .= $key . ', ';
+                                        }
+                                        echo substr($item, 0, strlen($item) - 2); ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $item = '';
+                                        foreach ($row['consequent'] as $key) {
+                                            $item .= $key . ', ';
+                                        }
+                                        echo substr($item, 0, strlen($item) - 2); ?>
+                                    </td>
+                                    <td><?= number_format($row['support'], 2) * 100 . '%';  ?></td>
+                                    <td><?= number_format($row['confidence'], 2) * 100 . '%';  ?></td>
+                                    <!-- <td><?= number_format($row['support'] * $row['confidence'], 2) * 100 . '%'; ?></td> -->
                                 </tr>
-                            </thead>
-                            <tbody id="sample-apriori">
-                                <?php
-                                $i = 1;
-                                foreach ($samples as $row) : ?>
-                                    <tr>
-                                        <td class="text-center"><?= $i++; ?></td>
-                                        <td><?= $row['id_transaksi'] ?></td>
-                                        <td><?= $row['nama'] ?></td>
-                                        <td><?= $row['no_telp'] ?></td>
-                                        <td><?= $row['tanggal'] ?></td>
-                                        <td>
-                                            <?php
-                                            $item = '';
-                                            foreach ($row['itemset'] as $key) {
-                                                $item .= $key . ', ';
-                                            }
-                                            echo substr($item, 0, strlen($item) - 2); ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END : ASOSIASI FINAL -->
 
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- END : DATASET TERPILIH -->
-
-                    <!-- BEGIN : ASOSIASIN FINAL  -->
+            <!-- BEGIN : FREQUENT -->
+            <span id="frequent-apriori">
+                <?php
+                $i = 1;
+                foreach ($frequent as $row) : ?>
                     <hr>
-                    <h4 class="header-title text-success">Asosiasi Final</h4>
+                    <h4 class="header-title text-danger">Iterasi <?= $i++; ?></h4>
                     <div class="single-table">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered ">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th scope="col">No.</th>
-                                        <th scope="col">Antecedent</th>
-                                        <th scope="col">Consequent</th>
+                                        <th scope="col">Itemset</th>
+                                        <th scope="col">Frequency</th>
                                         <th scope="col">Support</th>
-                                        <th scope="col">Confidence</th>
-                                        <th scope="col">Support * Confidence</th>
                                     </tr>
                                 </thead>
-                                <tbody id="result-apriori">
+                                <tbody>
                                     <?php
-                                    $i = 1;
-                                    foreach ($result as $row) :
+                                    $j = 1;
+                                    foreach ($row as $r) :
                                     ?>
                                         <tr>
-                                            <td class="text-center"><?= $i++; ?></td>
+                                            <td class="text-center"><?= $j++; ?></td>
                                             <td>
                                                 <?php
                                                 $item = '';
-                                                foreach ($row['antecedent'] as $key) {
+                                                foreach ($r['itemset'] as $key) {
                                                     $item .= $key . ', ';
                                                 }
                                                 echo substr($item, 0, strlen($item) - 2); ?>
                                             </td>
-                                            <td>
-                                                <?php
-                                                $item = '';
-                                                foreach ($row['consequent'] as $key) {
-                                                    $item .= $key . ', ';
-                                                }
-                                                echo substr($item, 0, strlen($item) - 2); ?>
-                                            </td>
-                                            <td><?= number_format($row['support'], 2) * 100 . '%';  ?></td>
-                                            <td><?= number_format($row['confidence'], 2) * 100 . '%';  ?></td>
-                                            <td><?= number_format($row['support'] * $row['confidence'], 2) * 100 . '%'; ?></td>
+                                            <td><?= $r['frequency'];  ?></td>
+                                            <td><?= number_format($r['support'], 2) * 100 . '%';  ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <!-- END : ASOSIASI FINAL -->
+                <?php endforeach; ?>
+            </span>
+            <!-- END : FREQUENT -->
 
-                    <!-- BEGIN : FREQUENT -->
-                    <span id="frequent-apriori">
-                        <?php
-                        $i = 1;
-                        foreach ($frequent as $row) : ?>
-                            <hr>
-                            <h4 class="header-title text-danger">Iterasi <?= $i++; ?></h4>
-                            <div class="single-table">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered ">
-                                        <thead class="text-uppercase">
-                                            <tr>
-                                                <th scope="col">No.</th>
-                                                <th scope="col">Itemset</th>
-                                                <th scope="col">Frequency</th>
-                                                <th scope="col">Support</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $j = 1;
-                                            foreach ($row as $r) :
-                                            ?>
-                                                <tr>
-                                                    <td class="text-center"><?= $j++; ?></td>
-                                                    <td>
-                                                        <?php
-                                                        $item = '';
-                                                        foreach ($r['itemset'] as $key) {
-                                                            $item .= $key . ', ';
-                                                        }
-                                                        echo substr($item, 0, strlen($item) - 2); ?>
-                                                    </td>
-                                                    <td><?= $r['frequency'];  ?></td>
-                                                    <td><?= number_format($r['support'], 2) * 100 . '%';  ?></td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </span>
-                    <!-- END : FREQUENT -->
-                </div>
-            </div>
+
         </div>
     </div>
+
     <!-- normal alert area end -->
+</div>
+<div class="row">
+    <div class="col-md-3" style="float: left;">
+        <table class="no-border" style="margin-top: 40px; ">
+            <tr class="no-border text-center">
+                <td class="no-border">Bekasi, .............................. <?= date('Y'); ?></td>
+            </tr>
+            <tr class="no-border">
+                <td class="no-border"><br><br><br><br><br><br></td>
+            </tr>
+            <tr class="no-border">
+                <td class="no-border text-center">Pemilik Salon</td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 

@@ -118,7 +118,6 @@
                                     <th scope="col">Consequent</th>
                                     <th scope="col">Support</th>
                                     <th scope="col">Confidence</th>
-                                    <th scope="col">Support * Confidence</th>
                                 </tr>
                             </thead>
                             <tbody id="result-apriori">
@@ -267,7 +266,6 @@
             body += "</td>";
             body += "<td>" + row.support.toFixed(2) * 100 + "%</td>";
             body += "<td>" + row.confidence.toFixed(2) * 100 + "%</td>";
-            body += "<td>" + (row.support * row.confidence).toFixed(2) * 100 + "%</td>";
             body += "</th>";
             i++;
         });
